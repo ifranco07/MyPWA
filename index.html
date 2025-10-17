@@ -7,10 +7,11 @@
 
     <!-- Vicular el manifest -->    
      <link rel="manifest" href="manifest.json">
+    <!-- Icono para instalar la PWA -->
+     <link rel="apple-touch-icon" href="./icons/icon-192x192.png"> 
 
      <!--Definir color de la barra de navegacion en moviles -->
      <meta name="theme-color" content="#2196f3">
-
 </head>
 <body>
     <h1>Bienvenido a mi PWA</h1>
@@ -20,11 +21,17 @@
     <script>
         if("serviceWorker" in navigator){
             navigator.serviceWorker
-                .register("/repo/")
+                .register("/repo/sw.js") 
                 .then(() => console.log("Service worker registrado"))
                 .catch(err => console.log("Error al registrar el sw", err));
-        }
+            }
     </script>
 
+    <ul>
+        <li><a href="index.html"> Inicio</a></li>
+        <li><a href="login.html">Login</a></li>
+    </ul>
+
 </body>
+
 </html>

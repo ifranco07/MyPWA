@@ -5,16 +5,12 @@ const {cache} = require
 
 
 // 1. Nombre del cache y archivos a cachear
-const CACHE_NAME = 'mi-cache-v2',
+const CACHE_NAME = 'mi-cache-v1',
   urlsToCache = [
     "index.html",
-    "Offline.html",
+    "offline.html",
     "./icons/icon-192x192.png",
-    "./icons/icon-512x512.png",
-    "./icons/icon-256x256.png",
-    "./icons/icon-128x128.png",
-    "./icons/icon-96x96.png",
-    "./icons/icon-72x72.png",
+    "./icons/icon-512x512.png"
   ];
 
 // 2. Install -> se ejecuta al instalar el sw
@@ -33,5 +29,29 @@ self.addEventListener('activate', event => {
                     .map(key => caches.delete(key))
             )
         )
+    );
+});
+
+// 4. FETCH -> intercepta peticiones de la app
+// Intercepta cada petición de la PWA
+// Buscar primero en caché
+// Si no está, busca en Internet
+// En caso de falla, muestro la página offline.html
+self.addEventListener("fetch", event => {
+    event.respondWith(
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request).catch(() => caches.match("offline.html"));
+        })
+    );
+});
+
+// 5. PUSH -> notificaciones en segundo plano
+// Manejo de notificaciones push (opcional)
+self.addEventListener("push", event => {
+    const data = event.data ? event.data.text() : "Notificación sin texto";
+    event.waitUntil(
+        self.registration.showNotification("Mi PWA", {
+            body: data
+        })
     );
 });
