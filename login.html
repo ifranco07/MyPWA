@@ -112,5 +112,18 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Detecta si hay conexión
+    if (!navigator.onLine) {
+      // Si no hay internet, redirige a la página offline
+      window.location.href = "offline.html";
+    }
+
+    // Escucha los cambios de conexión
+    window.addEventListener("offline", () => {
+      window.location.href = "offline.html";
+    });
+  </script>
 </body>
 </html>
